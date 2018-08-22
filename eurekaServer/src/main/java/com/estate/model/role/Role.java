@@ -1,10 +1,7 @@
 package com.estate.model.role;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.Date;
-
 
 public class Role implements Serializable {
     private Byte roleId;
