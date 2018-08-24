@@ -50,7 +50,7 @@ public class handlerController {
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login() {
         log.info("login page ============");
-        return "login";
+        return "login_new";
     }
     
 

@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,6 +30,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -43,11 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http)throws Exception{
         System.out.println("1231232"+ArrayUtils.toString(securitySettings.getPermitall().split(",")));
         http.formLogin().loginPage("/login").permitAll().successHandler(loginSucessHandle())
-        .and().authorizeRequests().antMatchers("/images/**","/Checkcode","/scripts/**","/styles/**","/getUsers","/static/**").permitAll()
+        .and().authorizeRequests().antMatchers("/images/**","/Checkcode","/scripts/**","/styles/**","/getUsers","/**").permitAll()
         .antMatchers(securitySettings.getPermitall().split(",")).permitAll()
         .anyRequest().authenticated()
         .and().csrf().requireCsrfProtectionMatcher(csrfSecurityRequestMatcher())
-        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
         .and().logout().logoutSuccessUrl(securitySettings.getLogoutsuccessurl())
         .and().exceptionHandling().accessDeniedPage(securitySettings.getDeniedpage())
         .and().rememberMe().tokenValiditySeconds(14*24*60*60);//.tokenRepository(tokenRepository());
