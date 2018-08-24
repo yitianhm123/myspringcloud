@@ -9,6 +9,7 @@
     <module>eureka</module>
     <module>eurekaClient</module>
     <module>eurekaServer</module>
+    <module>resourceServer</module>
   </modules>
   <name>springcloudMavenWebapp</name>
   <!--<url>http://maven.apache.org</url>-->
